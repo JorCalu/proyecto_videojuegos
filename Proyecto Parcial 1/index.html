@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Videojuegos</title>
+    <!-- Enlace a Bootstrap 4.5.2 y jQuery 3.5.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<h1 style="text-align:center;"> VIDEOJUEGOS.COM </h1>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Carga de datos desde el archivo JSON -->
+        <script>
+            fetch('videojuegos.json')
+                .then((respuesta) => {
+                    return respuesta.json();
+                })
+                .then((data) => {
+                    data.forEach(juego => {
+                        const gameCard = `
+                            <div class="col-md-3 mb-4">
+                                <div class="card">
+                                    <img src="${juego.imagen}" width="300" heigh="200" class="card-img-top" alt="${juego.titulo}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${juego.titulo}</h5>
+                                        <p class="card-text">Género: ${juego.genero}</p>
+                                        <p class="card-text">Plataforma: ${juego.plataforma}</p>
+                                        <p class="card-text">Año de lanzamiento: ${juego.anio_lanzamiento}</p>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#${juego.id}">Más Detalles</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Modal para más detalles -->
+                            <div class="modal fade" id="${juego.id}" tabindex="-1" role="dialog" aria-labelledby="${juego.id}Label" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="${juego.id}Label">${juego.titulo}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Género: ${juego.genero}</p>
+                                            <p>Plataforma: ${juego.plataforma}</p>
+                                            <p>Año de lanzamiento: ${juego.anio_lanzamiento}</p>
+                                            <p>Desarrollador: ${juego.desarrollador}</p>
+                                            <p>Descripción: ${juego.descripcion}</p>
+                                            <p>Puntuación: ${juego.puntuacion}</p>
+                                            <p>Precio: ${juego.precio}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        document.querySelector('.row').innerHTML += gameCard;
+                    });
+                });
+        </script>
+    </div>
+</div>
+
+<!-- Enlace a Bootstrap 4.5.2 y jQuery 3.5.1 desde CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+</body>
+</html>
